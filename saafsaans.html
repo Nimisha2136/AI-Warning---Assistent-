@@ -1,0 +1,210 @@
+<style>
+  :root{
+    --bg:#FAFAF8; --card:#FFFFFF; --ink:#22303C; --sub:#5F6E7A; --mut:#8B98A4;
+    --line:#E2E2DC; --amber:#B85E12; --amberbg:#FCEEDD; --teal:#0F6E56; --tealbg:#E1F5EE;
+    --dark:#22303C; --darkcard:#2E3F4E;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg:#181F26; --card:#22303C; --ink:#F0F2F3; --sub:#B7C1C9; --mut:#8B98A4;
+      --line:#3A4854; --amber:#F2A75B; --amberbg:#3A2E1C; --teal:#4FCBA3; --tealbg:#153A30;
+      --dark:#0F161C; --darkcard:#1C2731;
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#181F26; --card:#22303C; --ink:#F0F2F3; --sub:#B7C1C9; --mut:#8B98A4;
+    --line:#3A4854; --amber:#F2A75B; --amberbg:#3A2E1C; --teal:#4FCBA3; --tealbg:#153A30;
+    --dark:#0F161C; --darkcard:#1C2731;
+  }
+  *{box-sizing:border-box}
+  body{background:var(--bg);margin:0}
+  .wrap{max-width:760px;margin:0 auto;padding:28px 20px 48px;font-family:Georgia,'Times New Roman',serif;color:var(--ink)}
+  h1{font-size:26px;font-weight:700;margin:0 0 4px}
+  .tag{color:var(--sub);font-size:14px;margin:0 0 24px;font-family:Arial,Helvetica,sans-serif}
+  .panel{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:18px 20px;margin-bottom:16px}
+  .lbl{font-family:Arial,Helvetica,sans-serif;font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:var(--mut);margin-bottom:8px;display:block}
+  select{width:100%;font-family:Arial,Helvetica,sans-serif;font-size:14px;padding:9px 10px;border-radius:8px;border:1px solid var(--line);background:var(--bg);color:var(--ink);margin-bottom:14px}
+  select:last-child{margin-bottom:0}
+  .row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  .scenarios{display:flex;gap:8px;flex-wrap:wrap;margin-top:4px}
+  .scenbtn{font-family:Arial,Helvetica,sans-serif;font-size:12.5px;padding:8px 12px;border-radius:8px;border:1px solid var(--line);background:var(--bg);color:var(--sub);cursor:pointer}
+  .scenbtn.active{background:var(--amberbg);border-color:var(--amber);color:var(--amber);font-weight:bold}
+  .runbtn{width:100%;margin-top:16px;font-family:Arial,Helvetica,sans-serif;font-size:14px;font-weight:bold;padding:12px;border-radius:8px;border:none;background:var(--amber);color:#1A1206;cursor:pointer}
+  .runbtn:active{opacity:.85}
+  .stage{opacity:0;transform:translateY(6px);animation:in .35s forwards}
+  @keyframes in{to{opacity:1;transform:none}}
+  .stagehead{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+  .num{width:24px;height:24px;border-radius:50%;background:var(--amber);color:#1A1206;font-family:Arial,Helvetica,sans-serif;font-size:12px;font-weight:bold;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+  .stagetitle{font-family:Arial,Helvetica,sans-serif;font-weight:bold;font-size:14px}
+  .conf{font-family:Arial,Helvetica,sans-serif;font-size:11px;padding:3px 8px;border-radius:5px;margin-left:auto}
+  .conf-high{background:var(--tealbg);color:var(--teal)}
+  .conf-medium{background:var(--amberbg);color:var(--amber)}
+  .conf-low{background:#F7DADA;color:#A32D2D}
+  :root:not([data-theme="light"]) .conf-low{background:#4B1B1B;color:#F09595}
+  .mono{font-family:'Courier New',monospace;font-size:12.5px;background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:12px 14px;line-height:1.7;white-space:pre-wrap;color:var(--sub)}
+  .srcline{font-family:Arial,Helvetica,sans-serif;font-size:12.5px;color:var(--sub);padding:8px 0;border-bottom:1px solid var(--line)}
+  .srcline:last-child{border-bottom:none}
+  .srctag{display:inline-block;font-size:10px;font-weight:bold;color:var(--teal);background:var(--tealbg);padding:1px 6px;border-radius:4px;margin-right:6px}
+  .brief{font-size:15px;line-height:1.65}
+  .brief .hi{margin-top:14px;padding-top:14px;border-top:1px dashed var(--line);color:var(--sub)}
+  .note{font-family:Arial,Helvetica,sans-serif;font-size:11.5px;color:var(--mut);margin-top:24px;line-height:1.6}
+  a{color:var(--amber)}
+</style>
+
+<div class="wrap">
+  <h1>SaafSaans</h1>
+  <p class="tag">AI early-warning assistant for Delhi&rsquo;s air &mdash; live prototype pipeline</p>
+
+  <div class="panel">
+    <div class="row">
+      <div>
+        <label class="lbl">Household profile</label>
+        <select id="profile">
+          <option value="asthma">Child with asthma, Anand Vihar</option>
+          <option value="elderly">Elderly resident, Dwarka</option>
+          <option value="worker">Outdoor delivery worker, ITO</option>
+          <option value="healthy">Healthy adult, Saket</option>
+        </select>
+      </div>
+      <div>
+        <label class="lbl">Output language</label>
+        <select id="lang">
+          <option value="both">English + Hindi</option>
+          <option value="en">English only</option>
+        </select>
+      </div>
+    </div>
+    <label class="lbl">Scenario</label>
+    <div class="scenarios" id="scenarios"></div>
+    <button class="runbtn" onclick="runPipeline()">Run pipeline</button>
+  </div>
+
+  <div id="output"></div>
+
+  <p class="note">Forecast and retrieval logic here are rule-based, standing in for the prompt-chained IBM Granite workflow described in the project deck. AQI bands, GRAP stages and WHO thresholds are the real published figures. Historical AQI patterns are representative of CPCB station data, not a live feed.</p>
+</div>
+
+<script>
+const SCENARIOS = {
+  clear: { label: 'Clear day \u00b7 mid-Sept', history:[95,102,88,91,85], wind:12, inversion:false, date:'15 Sep' },
+  smog:  { label: 'Peak smog \u00b7 early Nov', history:[310,340,365,380,395], wind:2, inversion:true, date:'5 Nov' },
+  gap:   { label: 'Missing wind data', history:[210,240,255,270,null], wind:null, inversion:null, date:'22 Oct' }
+};
+
+const BANDS = [
+  {max:50,  name:'Good',       hi:'\u0905\u091a\u094d\u091b\u093e'},
+  {max:100, name:'Satisfactory', hi:'\u0938\u0902\u0924\u094b\u0937\u091c\u0928\u0915'},
+  {max:200, name:'Moderate',   hi:'\u092e\u0927\u094d\u092f\u092e'},
+  {max:300, name:'Poor',       hi:'\u0916\u0930\u093e\u092c'},
+  {max:400, name:'Very poor',  hi:'\u092c\u0939\u0941\u0924 \u0916\u0930\u093e\u092c'},
+  {max:501, name:'Severe',     hi:'\u0917\u0902\u092d\u0940\u0930'}
+];
+function bandFor(v){ return BANDS.find(b=>v<=b.max); }
+
+const CORPUS = {
+  grap: {
+    'Poor':'GRAP Stage I: dust control on roads and construction sites; no open burning of waste.',
+    'Very poor':'GRAP Stage II: mechanised road sweeping intensified; diesel generator restrictions; parking fees raised to discourage private vehicles.',
+    'Severe':'GRAP Stage III & IV: non-essential construction halted; schools may shift to hybrid mode; entry of polluting trucks restricted into Delhi.'
+  },
+  who: 'WHO\u2019s annual guideline for PM2.5 is 5 \u00b5g/m\u00b3 \u2014 far below India\u2019s national standard of 40 \u00b5g/m\u00b3, so an Indian "Satisfactory" day can still exceed WHO\u2019s health-based limit.',
+  health: {
+    default: 'Limit prolonged outdoor exertion; keep windows closed during peak traffic hours.',
+    asthma: 'Keep rescue inhaler accessible; avoid outdoor play entirely above "Poor"; use an N95 mask if going out is unavoidable.',
+    elderly: 'Avoid early-morning walks when pollutants settle low; monitor for breathlessness or chest tightness.',
+    worker: 'Use a well-fitted mask during shifts; take indoor breaks every 2 hours above "Very poor".',
+    healthy: 'Reduce, don\u2019t eliminate, outdoor exercise; shift workouts indoors above "Very poor".'
+  }
+};
+
+const PROFILES = {
+  asthma: {name:'your daughter', locality:'Anand Vihar', key:'asthma', hi:'\u0906\u092a\u0915\u0940 \u092c\u0947\u091f\u0940'},
+  elderly:{name:'you', locality:'Dwarka', key:'elderly', hi:'\u0906\u092a'},
+  worker: {name:'you', locality:'ITO', key:'worker', hi:'\u0906\u092a'},
+  healthy:{name:'you', locality:'Saket', key:'healthy', hi:'\u0906\u092a'}
+};
+
+let activeScenario = 'clear';
+const scenWrap = document.getElementById('scenarios');
+Object.keys(SCENARIOS).forEach(k=>{
+  const b=document.createElement('button');
+  b.className='scenbtn'+(k===activeScenario?' active':'');
+  b.textContent=SCENARIOS[k].label;
+  b.onclick=()=>{activeScenario=k;document.querySelectorAll('.scenbtn').forEach(x=>x.classList.remove('active'));b.classList.add('active');};
+  scenWrap.appendChild(b);
+});
+
+function forecast(sc){
+  const hist = sc.history.filter(v=>v!==null);
+  const last = hist[hist.length-1];
+  const trend = hist[hist.length-1] - hist[0];
+  const windKnown = sc.wind !== null;
+  let projected = last + trend*0.5 + (sc.inversion ? 25 : 0) - (windKnown && sc.wind>8 ? 15 : 0);
+  projected = Math.max(20, Math.round(projected));
+  const band = bandFor(projected);
+  let confidence = 'high';
+  if(!windKnown) confidence='low';
+  else if(sc.inversion===null) confidence='medium';
+  const driver = !windKnown ? 'Wind data unavailable \u2014 forecast relies on AQI trend only'
+    : sc.inversion ? 'Low wind speed with a temperature inversion trapping pollutants'
+    : sc.wind>8 ? 'Moderate wind dispersing pollutants' : 'Stagnant air, elevated baseline';
+  return {band, low:Math.round(projected*0.92), high:Math.round(projected*1.1), confidence, driver, windKnown};
+}
+
+function retrieve(bandName){
+  const grap = CORPUS.grap[bandName] || 'No GRAP restrictions active at this band.';
+  return [
+    {src:'CPCB', text:`"${bandName}" is a published CPCB AQI category.`},
+    {src:'GRAP', text: grap},
+    {src:'WHO', text: CORPUS.who}
+  ];
+}
+
+function personalize(profileKey, fc, sources){
+  const p = PROFILES[profileKey];
+  const health = CORPUS.health[p.key] || CORPUS.health.default;
+  const confNote = fc.confidence==='low' ? " This forecast has low confidence because wind data was missing \u2014 treat it as a rough estimate and recheck closer to the day." : fc.confidence==='medium' ? " Confidence is medium; some inputs were incomplete." : "";
+  const en = `${p.locality}: expect "${fc.band.name}" air (AQI ${fc.low}\u2013${fc.high}) in the next 24\u201348 hours. ${fc.driver}. ${health}${confNote}`;
+  const hi = `${p.locality}: \u0905\u0917\u0932\u0947 24-48 \u0918\u0902\u091f\u094b\u0902 \u092e\u0947\u0902 \u0939\u0935\u093e \u0917\u0941\u0923\u0935\u0924\u094d\u0924\u093e "${fc.band.hi}" \u0930\u0939\u0928\u0947 \u0915\u0940 \u0938\u0902\u092d\u093e\u0935\u0928\u093e \u0939\u0948\u0964 \u0938\u093e\u0935\u0927\u093e\u0928\u0940 \u092c\u0930\u0924\u0947\u0902\u0964`;
+  return {en, hi};
+}
+
+function runPipeline(){
+  const sc = SCENARIOS[activeScenario];
+  const profileKey = document.getElementById('profile').value;
+  const lang = document.getElementById('lang').value;
+  const fc = forecast(sc);
+  const sources = retrieve(fc.band.name);
+  const brief = personalize(profileKey, fc, sources);
+
+  const out = document.getElementById('output');
+  out.innerHTML = '';
+
+  const s1 = document.createElement('div');
+  s1.className='panel stage'; s1.style.animationDelay='0s';
+  s1.innerHTML = `<div class="stagehead"><div class="num">1</div><div class="stagetitle">Forecast engine</div><div class="conf conf-${fc.confidence}">${fc.confidence} confidence</div></div>
+  <div class="mono">{
+  "date": "${sc.date}",
+  "aqi_24h": {"band": "${fc.band.name}", "range": "${fc.low}\u2013${fc.high}"},
+  "confidence": "${fc.confidence}",
+  "key_driver": "${fc.driver}"
+}</div>`;
+  out.appendChild(s1);
+
+  const s2 = document.createElement('div');
+  s2.className='panel stage'; s2.style.animationDelay='.15s';
+  s2.innerHTML = `<div class="stagehead"><div class="num">2</div><div class="stagetitle">Retrieval layer</div></div>` +
+    sources.map(s=>`<div class="srcline"><span class="srctag">${s.src}</span>${s.text}</div>`).join('');
+  out.appendChild(s2);
+
+  const s3 = document.createElement('div');
+  s3.className='panel stage'; s3.style.animationDelay='.3s';
+  s3.innerHTML = `<div class="stagehead"><div class="num">3</div><div class="stagetitle">Personalised daily brief</div></div>
+  <div class="brief"><div>${brief.en}</div>${lang==='both'?`<div class="hi">${brief.hi}</div>`:''}</div>`;
+  out.appendChild(s3);
+
+  out.scrollIntoView({behavior:'smooth', block:'nearest'});
+}
+
+runPipeline();
+</script>
