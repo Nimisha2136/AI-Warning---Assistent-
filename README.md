@@ -3,8 +3,8 @@
 
 > Built for the **1M1B AI for Sustainability Virtual Internship**, in collaboration with **IBM SkillsBuild** and **AICTE**.
 
-**[Live prototype →](https://claude.ai/artifact/XA2DtwLxaXN7iGxYs78zC2)**
-*(or host it yourself: Settings → Pages → deploy from `main` / root, then open `https://<username>.github.io/<repo>/saafsaans.html`)*
+**[Live prototype ](https://claude.ai/artifact/XA2DtwLxaXN7iGxYs78zC2)**
+
 
 ---
 
