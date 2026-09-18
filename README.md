@@ -45,16 +45,6 @@ User profile ─┘
 | WHO air quality guidelines | An independent health-threshold check |
 | CPCB / health advisory guidance | Precaution language (never medical advice) |
 
-## Live prototype
-
-The prototype in this repo (`saafsaans.html`) runs the full pipeline in-browser with rule-based logic standing in for the prompt-chained IBM Granite workflow — no API key needed to demo it.
-
-| Clear day · mid-September | Peak smog · early November |
-|---|---|
-| ![Clear day screenshot](assets/screenshot-clear-day.png) | ![Smog day screenshot](assets/screenshot-smog-day.png) |
-
-Same household profile, same locality — the forecast, the grounded GRAP guidance, and the personalised advice all change with the input data. A third scenario (missing wind data) demonstrates the system lowering its confidence instead of guessing.
-
 ## Target users
 
 - Parents of school-age children
